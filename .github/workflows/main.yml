@@ -24,11 +24,14 @@ jobs:
       - name: Publish with dotnet
         run: dotnet publish MyAspNetCoreApp.csproj --configuration Release --output ${{github.workspace}}/myapp
 
+      - name: Zip the published output
+        run: Compress-Archive -Path ${{github.workspace}}/myapp/* -DestinationPath ${{github.workspace}}/myapp.zip
+
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
           name: .net-app
-          path: ${{github.workspace}}/myapp/**/*
+          path: ${{github.workspace}}/myapp.zip
 
   deploy:
     runs-on: windows-latest
@@ -58,4 +61,4 @@ jobs:
         with:
           app-name: 'APIsMonitoring' # Replace with your Azure App Service name
           slot-name: 'Production'
-          package: '**/*.zip'  # Adjust if not a zip file.
+          package: ${{github.workspace}}/myapp.zip
