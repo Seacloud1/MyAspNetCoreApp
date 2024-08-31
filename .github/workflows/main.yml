@@ -1,9 +1,9 @@
-name: Build and deploy ASP.NET Core app to Azure Web App - MyAspNetCoreApp
+name: Build and deploy ASP.NET Core app to Azure Web App
 
 on:
   push:
     branches:
-      - master
+      - master  # Or main if your repository uses the main branch
   workflow_dispatch:
 
 jobs:
@@ -56,6 +56,6 @@ jobs:
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
-          app-name: 'APIsMonitoring' # Your Azure App Service name
+          app-name: 'APIsMonitoring' # Replace with your Azure App Service name
           slot-name: 'Production'
           package: .
